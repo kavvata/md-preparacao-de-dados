@@ -58,3 +58,47 @@ df_tratado.loc[filtro & (df_mamo["severity"] == 0), 'shape'] = moda_forma_benign
 df_tratado.loc[filtro & (df_mamo["severity"] == 1), 'shape'] = moda_forma_maligna
 
 print(df_tratado[filtro].head())
+
+# %% tratando de dados faltantes em contorno
+moda_contorno_benigna = st.mode([int(margin) for margin in df_mamo.loc[
+    (df_mamo["severity"] == 0) & (df_mamo["margin"] != "?"), "margin"
+]])
+
+moda_contorno_maligna = st.mode([int(margin) for margin in df_mamo.loc[
+    (df_mamo["severity"] == 1) & (df_mamo["margin"] != "?"), "margin"
+]])
+
+print(f"media contorno severidade benigna : {moda_contorno_benigna}")
+print(f"media contorno severidade maligna : {moda_contorno_maligna}")
+
+filtro = df_mamo["margin"] == "?"
+
+print(df_mamo[filtro].head(6))
+
+df_tratado.loc[filtro & (df_mamo["severity"] == 0), "margin"] = moda_contorno_benigna
+df_tratado.loc[filtro & (df_mamo["severity"] == 1), "margin"] = moda_contorno_maligna
+
+print(df_tratado[filtro].head(6))
+
+# %% tratando dados faltantes em densidade
+
+# NOTE: no material fornecido pelo livro, a densidade é a mesma para as duas classes,
+# sendo possivel eliminar um calculo de moda
+moda_densidade_benigna = st.mode([int(density) for density in df_mamo.loc[
+    (df_mamo["severity"] == 0) & (df_mamo["density"] != "?"), "density"
+]])
+moda_densidade_maligna = st.mode([int(density) for density in df_mamo.loc[
+    (df_mamo["severity"] == 1) & (df_mamo["density"] != "?"), "density"
+]])
+
+print(f"media densidade severidade benigna : {moda_densidade_benigna}")
+print(f"media densidade severidade maligna : {moda_densidade_maligna}")
+
+filtro = df_mamo["density"] == "?"
+
+print(df_mamo[filtro].head())
+
+df_tratado.loc[filtro & (df_mamo["severity"] == 0), "density"] = moda_densidade_benigna
+df_tratado.loc[filtro & (df_mamo["severity"] == 1), "density"] = moda_densidade_maligna
+
+print(df_tratado[filtro].head())
