@@ -38,3 +38,23 @@ print(df_mamo[filtro])
 df_tratado.loc[filtro, 'age'] = media_idade
 
 print(df_tratado[filtro])
+# %% tratando de dados faltantes em forma
+moda_forma_benigna = st.mode([int(shape) for shape in df_mamo.loc[
+    (df_mamo["severity"] == 0) & (df_mamo["shape"] != "?"), "shape"
+]])
+
+moda_forma_maligna = st.mode([int(shape) for shape in df_mamo.loc[
+    (df_mamo["severity"] == 1) & (df_mamo["shape"] != "?"), "shape"
+]])
+
+
+print(f"media forma severidade benigna : {moda_forma_benigna}")
+print(f"media forma severidade maligna : {moda_forma_maligna}")
+
+filtro = (df_mamo["shape"] == "?")
+print(df_mamo[filtro].head())
+
+df_tratado.loc[filtro & (df_mamo["severity"] == 0), 'shape'] = moda_forma_benigna
+df_tratado.loc[filtro & (df_mamo["severity"] == 1), 'shape'] = moda_forma_maligna
+
+print(df_tratado[filtro].head())
