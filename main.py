@@ -134,3 +134,7 @@ df_tratado.loc[filtro & (df_mamo["severity"] == 0), "density"] = moda_densidade_
 df_tratado.loc[filtro & (df_mamo["severity"] == 1), "density"] = moda_densidade_maligna
 
 print(df_tratado[filtro].head())
+
+# %% salvando novo arquivo csv
+print(df_tratado.head(10))
+df_tratado.to_csv('./data/mammographic_masses_tratado.csv')
