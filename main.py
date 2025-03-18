@@ -8,16 +8,13 @@ df_tratado = df_mamo.copy()
 print(df_mamo)
 
 # %% verificando quantos objetos tem dados faltando
-dirty = df_mamo.query(
+print(df_mamo.query(
     'bi_rads == "?"'
     + 'or age == "?"'
     + 'or shape == "?"'
     + 'or margin == "?"'
     + 'or density == "?"'
     + 'or severity == "?"'
-)
-
-print(dirty)
 # %% tratando dados faltantes em BI-RADS utilizando moda
 filtro = df_mamo["bi_rads"] == "?"
 moda_bi_rads = st.mode(
